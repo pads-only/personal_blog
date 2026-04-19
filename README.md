@@ -1,200 +1,170 @@
-# 📝 Personal Blog (Laravel)
+# 📝 Personal Blog
 
-A clean, lightweight personal blog built with Laravel, designed to demonstrate backend engineering skills, clean architecture, and production-ready coding practices.
-
-This project focuses on **real-world backend design principles** rather than feature overload.
+A simple and elegant personal blog platform built with Laravel, designed for writing, managing, and publishing articles with a clean and readable interface.
 
 ---
 
-## 🚀 Live Demo
+## 🚀 Overview
 
-> (Add your deployed link here)
+This is a personal blogging system where I can write and publish articles, manage content easily, and focus on clean reading experience.
 
----
+The project demonstrates:
 
-## 📸 Preview
-
-> (Add screenshots or GIFs here)
-- Home page
-- Blog post view
-- Admin post editor
-
----
-
-## 🧠 Project Goals
-
-This project was built to:
-
-- Strengthen backend development skills using Laravel
-- Practice clean architecture and separation of concerns
-- Implement real-world features like slug systems and publishing workflows
-- Demonstrate testing and maintainable code structure
-- Serve as a portfolio project for backend engineering roles
+* Laravel backend development
+* CRUD operations for blog posts
+* Clean UI design using Blade and Tailwind CSS
+* Basic content management system structure
 
 ---
 
 ## ✨ Features
 
-### 📝 Blog System
-- Create, edit, and delete blog posts
-- Draft and publish workflow
-- SEO-friendly URLs using slugs
+### 👤 Blog Management
 
-### 🔗 Slug-based Routing
-- Human-readable URLs:/posts/laravel-clean-architecture
+* Create, edit, and delete blog posts
+* Draft and publish system
+* Slug-based URLs for SEO-friendly routing
 
+### 📖 Reading Experience
 
-### 🏷️ Tags System
-- Assign multiple tags to posts
-- Filter posts by tag
+* Clean and minimal blog layout
+* Responsive design (mobile-friendly)
+* Organized post listing with pagination
 
-### 📖 Public Blog View
-- Only published posts are visible to the public
-- Clean, minimal reading experience
+### 🔍 Content Features
 
-### 💬 Comments System (Optional)
-- Users can leave comments on posts
+* Markdown support 
+* Code snippet support
+* Timestamped posts (created/updated dates)
 
-### 🌐 API Endpoints
-- Public REST API for posts
-
-### ⚡ Performance
-- Basic caching for frequently accessed data
-
-### 🧪 Testing
-- Feature tests for core post workflows
-- Validation of publishing rules and visibility
+### 🧱 Tech Stack
+* Backend: Laravel (PHP)
+* Frontend: Blade, Tailwind CSS
+* Database: MySQL / SQLite
+* Version Control: Git & GitHub
 
 ---
 
-## 🏗️ Tech Stack
+## 🧱 Tech Stack
 
-- **Backend:** Laravel 11+
-- **Frontend:** Blade + Tailwind CSS
-- **Database:** MySQL / PostgreSQL
-- **Authentication:** Laravel Breeze
-- **Caching (optional):** Redis
-- **Testing:** PHPUnit
-
----
-
-## 🧱 Architecture Overview
-
-The project follows a clean and simple layered structure:
-Controllers → Actions/Services → Models → Database
-
-
-### Key Design Decisions:
-
-- Thin controllers (no business logic inside)
-- Action-based service layer for core operations
-- Route model binding using slugs
-- Query scopes for clean data filtering
-- Form Requests for validation
+* **Backend:** Laravel (PHP)
+* **Frontend:** Blade, Tailwind CSS
+* **Database:** MySQL
+* **Testing:** PHPUnit
+* **Version Control:** Git & GitHub
+* Auth:** Laravel Breeze
+* **Testing:** PHPUnit
+* **Caching (optional):** Redis
 
 ---
 
-## 🧾 Database Structure
+## 🗂️ Project Structure (Simplified)
 
-### Main Tables:
-
-- `users`
-- `posts`
-- `tags`
-- `post_tag`
-- `comments` (optional)
-
-### Posts Table Highlights:
-
-- title
-- slug (unique)
-- content
-- status (draft / published)
-- published_at
-- user_id
+```bash
+app/
+├── Models/
+├── Http/
+│   ├── Controllers/
+│   └── Middleware/
+database/
+├── migrations/
+resources/
+├── views/
+routes/
+├── web.php
+```
 
 ---
 
-## 🔐 Authentication
+## ⚙️ Installation
 
-- Built with Laravel Breeze
-- Single-user focused (admin-only blog management)
+Follow these steps to run the project locally:
+
+```bash
+git clone https://github.com/pads-only/personal-blog.git
+cd personal-blog
+
+composer install
+npm install && npm run dev
+
+cp .env.example .env
+php artisan key:generate
+```
+
+### Configure Environment
+
+DB_DATABASE=your_database
+DB_USERNAME=root
+DB_PASSWORD=
+
+Update your `.env` file with your database credentials.
+
+```bash
+php artisan migrate
+php artisan serve
+```
+
+Visit:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## 🔐 Roles & Permissions
+
+| Role      | Permissions                     |
+| --------- | ------------------------------- |
+| User      | Create and manage own posts     |
+| Moderator | Review and approve/reject posts |
+| Admin     | Full system access              |
+
+---
+
+## 🔄 Moderation Workflow
+
+1. User creates a blog post (saved as **pending**)
+2. Moderator reviews the submission
+3. Post is either:
+
+   * ✅ Approved → becomes public
+   * ❌ Rejected → feedback provided
+
+---
+
+## 📸 Screenshots
+
+> *(Add screenshots here for better presentation)*
+
+* Blog listing page
+* Create post page
+* Moderation dashboard
 
 ---
 
 ## 🧪 Testing
 
-This project includes feature tests for:
-
-- Post creation
-- Publishing workflow
-- Public visibility rules
-- Comment submission (if enabled)
-
-Run tests:
-
 ```bash
 php artisan test
+```
 
-⚙️ Installation
-1. Clone the repository
-git clone https://github.com/your-username/personal-blog.git
-cd personal-blog
-2. Install dependencies
-composer install
-npm install && npm run dev
-3. Setup environment
-cp .env.example .env
-php artisan key:generate
-4. Configure database
+---
 
-Update .env file:
+## 🚧 Project Status
 
-DB_DATABASE=your_db
-DB_USERNAME=root
-DB_PASSWORD=
-5. Run migrations
-php artisan migrate
-6. Start server
-php artisan serve
-📌 Example Routes
-Public
-GET /  
-GET /posts/{slug}
-GET /tags/{tag}
-Authenticated (Admin)
-GET /dashboard
-POST /posts
-PUT /posts/{post}
-DELETE /posts/{post}
-🧠 Key Learnings
+🚧 In Development
 
-This project demonstrates:
+---
 
-Real-world Laravel backend structure
-Slug generation and routing strategies
-Separation of business logic using service/actions
-Query scopes and clean Eloquent usage
-Authentication and authorization basics
-Writing maintainable and testable code
-📷 Screenshots
+## 👨‍💻 Author
 
-Add images here for better portfolio impact:
+**Juan Carlos**
 
-Homepage
-Post page
-Admin editor
-🚀 Future Improvements
-Markdown editor support
-Post versioning
-Advanced caching layer
-Search functionality
-Better admin dashboard UI
-👨‍💻 Author
+* GitHub: https://github.com/pads-only
 
-Juan Carlos Padillo
-Backend-focused Laravel Developer
+---
 
-📄 License
+## 📄 License
 
 This project is open-source and available under the MIT License.
