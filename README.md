@@ -37,13 +37,6 @@ The project demonstrates:
 * Code snippet support
 * Timestamped posts (created/updated dates)
 
-### 🧱 Tech Stack
-* Backend: Laravel (PHP)
-* Frontend: Blade, Tailwind CSS
-* Database: MySQL / SQLite
-* Version Control: Git & GitHub
-
----
 
 ## 🧱 Tech Stack
 
@@ -58,7 +51,7 @@ The project demonstrates:
 
 ---
 
-## 🗂️ Project Structure (Simplified)
+<!-- ## 🗂️ Project Structure (Simplified)
 
 ```bash
 app/
@@ -74,9 +67,9 @@ routes/
 ├── web.php
 ```
 
----
+--- -->
 
-## ⚙️ Installation
+<!-- ## ⚙️ Installation
 
 Follow these steps to run the project locally:
 
@@ -149,7 +142,7 @@ http://127.0.0.1:8000
 php artisan test
 ```
 
----
+--- -->
 
 ## 🚧 Project Status
 
