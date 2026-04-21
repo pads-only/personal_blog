@@ -1,4 +1,8 @@
 import Alpine from 'alpinejs';
+import hljs from 'highlight.js'
+import 'highlight.js/styles/xt256.css' // or any theme
+
+window.hljs = hljs
 
 window.Alpine = Alpine;
 
@@ -46,3 +50,31 @@ themeToggleBtn.addEventListener("click", function () {
     }
 });
 
+
+import EditorJS from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+import List from '@editorjs/list'
+import Code from '@editorjs/code'
+
+const editor = new EditorJS({
+    holder: 'editorjs',
+
+    tools: {
+        header: Header,
+        list: List,
+        code: Code,
+    },
+
+    async onChange() {
+        const content = await editor.save()
+        document.getElementById('content').value = JSON.stringify(content)
+    }
+})
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block)
+    })
+})
