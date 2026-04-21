@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use AlAminFirdows\LaravelEditorJs\Facades\LaravelEditorJs;
 use App\Models\Post;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PostController extends Controller
 {
     public function index(Post $posts): View
     {
-        $posts = $posts::where('status', 'draft')->latest()->simplePaginate(5);
+        $posts = $posts::latest()->simplePaginate(5);
 
         return view('blog.index', ['posts' => $posts]);
     }
@@ -22,14 +24,34 @@ class PostController extends Controller
         return view('blog.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
+        $validatedAttributes = $request->validate([
+            'title' => 'required|min:3',
+            'content' => 'required'
+        ]);
+
         Post::create([
             'user_id' => '1',
-            'slug' => 'slug-test-' . random_int(10, 99),
-            'title' => $request->title,
-            'content' => json_decode($request->content),
+            'slug' => Str::slug($validatedAttributes['title'], '-'),
+            'title' => $validatedAttributes['title'],
+            'content' => json_decode($validatedAttributes['content']),
             'published_at' => Carbon::now()
         ]);
+
+        return redirect('/blog');
+    }
+
+    public function show(Post $post): View
+    {
+        return view('blog.show', ['post' => $post]);
+    }
+
+    public function destroy(Post $post): RedirectResponse
+    {
+        // dd($post);
+        $post->delete();
+
+        return redirect('/blog');
     }
 }

@@ -1,47 +1,75 @@
-<!DOCTYPE html>
-<html class="dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Personal Blog') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans bg-white text-text-light dark:text-text-primary-dark dark:bg-background-dark antialiased transition-colors duration-300">
-        <div class="space-y-6 max-w-5xl mx-auto ">
-            @forelse($posts as $post)
-                <a href=""
-                   class="block pb-4 border-b border-border-light dark:border-border-dark hover:opacity-80 transition">
-
-                   <small>{{$post->user->name}}</small>
-                    <h2 class="text-lg sm:text-xl font-semibold text-text-primary-light dark:text-text-primary-dark">
-                        {{ $post->title }}
-                    </h2>
-
-                    <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark mt-1">
-                        {{ $post->created_at->format('M d, Y') }} 
-                    </p>
-
-                    {{-- <div class="prose prose-lg max-w-none dark:prose-invert">
-                        @foreach ($post->content['blocks'] as $block)
-                            @includeIf('blocks.' . $block['type'] , ['data' => $block['data']])
-                        @endforeach
-                    </div> --}}
-                </a>
-            @empty
-                <p class="text-text-secondary-light dark:text-text-secondary-dark">
-                    No blog posts yet.
-                </p>
-            @endforelse
-            {{ $posts->links() }}
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-accent-light dark:text-accent-dark leading-tight">
+                {{ __('Blog') }}
+            </h2>
+            <x-link :href="route('blog.create')">+ Create new blog</x-link>
         </div>
-        <x-toggle-theme/>
-    </body>
-</html>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-text-light dark:text-text-dark">
+                    <table class="min-w-full text-sm">
+                        <!-- Header -->
+                        <thead class="border-b border-border-light dark:border-border-dark">
+                            <tr class="text-left text-accent-light dark:text-accent-dark">
+                                <th class="px-6 py-4 font-semibold">Title</th>
+                                <th class="px-6 py-4 font-semibold">Status</th>
+                                <th class="px-6 py-4 font-semibold">Published</th>
+                                <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <!-- Body -->
+                        <tbody class="divide-y divide-border-light dark:divide-border-dark text-text-light dark:text-text-dark">
+                            @forelse ($posts as $post)
+                                <tr class="hover:bg-background-light/50 dark:hover:bg-background-dark/50 transition">
+                                <td class="px-6 py-4 font-medium text-text-light dark:text-text-dark">
+                                    {{__($post->title)}}
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    @if ($post->status === 'published')    
+                                        <span class="px-3 py-1 text-xs rounded-full bg-success dark:bg-success/70 text-background-light">
+                                            {{__($post->status)}}
+                                        </span>
+                                    @else
+                                        <span class="px-3 py-1 text-xs rounded-full bg-muted-dark/50 text-accent-light dark:text-accent-dark">
+                                            {{__($post->status)}}
+                                        </span>
+                                    @endif
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    Apr 20, 2026
+                                </td>
+
+                                <td class="px-6 py-4 text-right space-x-2 flex justify-end">
+                                    <x-link :href="route('blog.show', $post->slug)">{{__('View')}}</x-link>
+                                    <form action="{{route('blog.destroy', $post->slug)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <x-button.danger>
+                                            {{__("Delete")}}
+                                        </x-button.danger>
+                                    </form>
+                                </td>
+                            </tr>
+                            @empty
+                                <tr>
+                                    <td>{{__('You haven\'t posted anything yet')}}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                    <div class="pt-6 border-t border-border-light dark:border-border-dark">
+                        {{ $posts->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

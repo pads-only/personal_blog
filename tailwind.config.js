@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -16,47 +17,38 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // Brand colors
+                background: {
+                    light: colors.slate[200],
+                    dark: colors.slate[900]
+                },
+
+                surface: {
+                    light: colors.slate[100],
+                    dark: colors.slate[800]
+                },
                 primary: {
-                    DEFAULT: "#5c7c89",
-                    light: "#7f9aa5",
-                    dark: "#46616b",
+                    light: colors.violet[600],
+                    dark: colors.violet[500],
+                },
+                text: {
+                    light: colors.gray[500],
+                    dark: colors.gray[400]
+                },
+                border: {
+                    light: colors.gray[400],
+                    dark: colors.gray[600]
                 },
                 accent: {
-                    DEFAULT: "#1f4959",
-                    light: "#2b6173",
-                    dark: "#163944",
+                    light: colors.gray[700],
+                    dark: colors.gray[300]
                 },
-
-                // Neutral backgrounds
-                background: {
-                    light: "#ffffff",
-                    dark: "#0a0f22",
+                muted: {
+                    light: colors.gray[400],
+                    dark: colors.gray[500]
                 },
-
-                // Deeper layers (cards, modals)
-                surface: {
-                    light: "#f8f9fa",
-                    dark: "#1d2233",
-                },
-
-                // Text system
-                text: {
-                    primary: {
-                        light: "#242424",
-                        dark: "#ffffff",
-                    },
-                    secondary: {
-                        light: "#5c7c89",
-                        dark: "#7f9aa5",
-                    },
-                },
-
-                // Borders / subtle UI
-                border: {
-                    light: "#e5e7eb",
-                    dark: "#1f4959",
-                },
+                secondary: "#A5D6FF",
+                success: "#3FB950",
+                danger: "#F85149",
             },
         }
     },
