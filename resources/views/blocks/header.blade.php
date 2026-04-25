@@ -3,4 +3,4 @@ $level = $data['level'] ?? 1;
 $tag = "h{$level}";
 @endphp
 
-<{{ $tag }}>{!! htmlspecialchars($data['text']) ?? '' !!}</{{ $tag }}>
+<{{ $tag }}>{!! $data['text'] ?? '' !!}</{{ $tag }}>

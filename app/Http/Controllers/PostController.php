@@ -5,31 +5,115 @@ namespace App\Http\Controllers;
 use AlAminFirdows\LaravelEditorJs\Facades\LaravelEditorJs;
 use App\Models\Post;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(Post $posts): View
+    public function index(): View
     {
-        $posts = $posts::where('status', 'draft')->latest()->simplePaginate(5);
+        Gate::authorize('viewAny', Post::class);
+
+        $posts = Post::latest()
+            ->simplePaginate(5);
 
         return view('blog.index', ['posts' => $posts]);
     }
 
     public function create(): View
     {
+        Gate::authorize('create', Post::class);
+
         return view('blog.create');
     }
 
-    public function store(Request $request)
+    public function edit(Post $post): View
     {
+        Gate::authorize('update', $post);
+
+        return view('blog.edit', ['post' => $post]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        Gate::authorize('create', Post::class);
+
+        $validatedAttributes = $request->validate([
+            'title' => 'required|min:3|string',
+            'content' => 'required'
+        ]);
+
+        $slug = Str::slug($validatedAttributes['title'], '-');
+
+        $count = Post::where('slug', 'like', "$slug%")->count();
+
+        $slug = $count ? "{$slug}-{$count}" : $slug;
+
+        $content = json_decode($validatedAttributes['content'], true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return back()->withErrors(['content' => 'Invalid Content']);
+        }
+
         Post::create([
-            'user_id' => '1',
-            'slug' => 'slug-test-' . random_int(10, 99),
-            'title' => $request->title,
-            'content' => json_decode($request->content),
+            'user_id' => Auth::id(),
+            'slug' => $slug,
+            'title' => $validatedAttributes['title'],
+            'content' => $content,
             'published_at' => Carbon::now()
         ]);
+
+        return redirect()->route('blog.index');
+    }
+
+    public function update(Request $request, Post $post): RedirectResponse
+    {
+        Gate::authorize('update', $post);
+
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return back()->withErrors(['content' => 'Invalid Content']);
+        }
+
+        $validatedAttributes = $request->validate([
+            'title' => 'required|min:3|string',
+            'content' => 'required'
+        ]);
+
+        $slug = Str::slug($validatedAttributes['title'], '-');
+
+        $count = Post::where('slug', 'like', "$slug%")->count();
+
+        $slug = $count ? "{$slug}-{$count}" : $slug;
+
+        $content = json_decode($validatedAttributes['content'], true);
+
+        $post->update([
+            'slug' => $slug,
+            'title' => $validatedAttributes['title'],
+            'content' => $content
+        ]);
+
+        return redirect()->route('blog.show', $post->slug);
+    }
+
+    public function show(Post $post): View
+    {
+        Gate::authorize('view', $post);
+
+        return view('blog.show', ['post' => $post]);
+    }
+
+    public function destroy(Post $post): RedirectResponse
+    {
+        Gate::authorize('delete', $post);
+
+        $post->delete();
+
+        return redirect()->route('blog.index');
     }
 }
