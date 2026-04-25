@@ -18,7 +18,7 @@ export default {
             },
             colors: {
                 background: {
-                    light: colors.slate[200],
+                    light: colors.gray[50],
                     dark: colors.slate[900]
                 },
 

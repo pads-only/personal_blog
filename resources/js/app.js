@@ -4,6 +4,12 @@ import 'highlight.js/styles/xt256.css' // or any theme
 
 window.hljs = hljs
 
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block)
+    })
+})
+
 window.Alpine = Alpine;
 
 Alpine.start();
@@ -57,7 +63,10 @@ import List from '@editorjs/list'
 import Code from '@editorjs/code'
 
 const editor = new EditorJS({
+
     holder: 'editorjs',
+
+    autofocus: true,
 
     tools: {
         header: Header,
@@ -65,16 +74,26 @@ const editor = new EditorJS({
         code: Code,
     },
 
+    data: window.editorData ?? {
+        blocks: []
+    },
+
+    placeholder: 'Tell your story',
+
     async onChange() {
         const content = await editor.save()
         document.getElementById('content').value = JSON.stringify(content)
     }
 })
 
+// const form = document.querySelector('#postForm');
 
+// form.addEventListener('submit', async (e) => {
+//     e.preventDefault(); // stop normal submit
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightElement(block)
-    })
-})
+//     const output = await editor.save();
+
+//     document.querySelector('#content').value = JSON.stringify(output);
+
+//     form.submit(); // now submit with data
+// });
