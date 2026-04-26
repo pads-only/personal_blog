@@ -5,6 +5,13 @@
                 {{ __('Blog') }}
             </h2>
             <div class="flex space-x-2">
+                @can('update', $post) 
+                <form action="" method="post">
+                    <x-button.primary>
+                        {{__('Publish')}}
+                    </x-button.primary>
+                </form>   
+                @endcan
                 @can('create', $post)    
                 <x-link :href="route('blog.create')" class="flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -25,6 +32,20 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-text-light dark:text-text-dark">
+                    @if (session()->has('success'))
+                        <p
+                            x-data="{ show: true }"
+                            x-show="show"
+                            x-transition
+                            x-init="setTimeout(() => show = false, 3000)"
+                            class="text-md text-success m-6 mb-0 flex gap-2"
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+
+                        {{__(session('success')) }}</p>
+                    @endif
                     <small>{{$post->user->name}}</small>
                     <h2 class="text-6xl font-semibold text-text-primary-light dark:text-text-primary-dark">
                         {{ __($post->title) }}

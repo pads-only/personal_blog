@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-5xl mx-auto mt-10 p-6 sm:pt-0 space-y-4 bg-background-light dark:bg-background-dark">
-        <form method="POST" action="/blog" id="postForm">
+        <form method="POST" action="/admin/blog" id="postForm">
             @csrf
             <div class="flex justify-end">
                 <x-button.primary >Publish</x-button.primary>

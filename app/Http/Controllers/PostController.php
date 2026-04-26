@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Spatie\Flash\Flash;
 
 class PostController extends Controller
 {
@@ -21,21 +22,21 @@ class PostController extends Controller
         $posts = Post::latest()
             ->simplePaginate(5);
 
-        return view('blog.index', ['posts' => $posts]);
+        return view('admin.blog.index', ['posts' => $posts]);
     }
 
     public function create(): View
     {
         Gate::authorize('create', Post::class);
 
-        return view('blog.create');
+        return view('admin.blog.create');
     }
 
     public function edit(Post $post): View
     {
         Gate::authorize('update', $post);
 
-        return view('blog.edit', ['post' => $post]);
+        return view('admin.blog.edit', ['post' => $post]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -66,14 +67,13 @@ class PostController extends Controller
             'content' => $content,
             'published_at' => Carbon::now()
         ]);
-
-        return redirect()->route('blog.index');
+        return redirect()->route('blog.index')
+            ->with('success', 'New post has been create!');
     }
 
     public function update(Request $request, Post $post): RedirectResponse
     {
         Gate::authorize('update', $post);
-
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             return back()->withErrors(['content' => 'Invalid Content']);
@@ -98,14 +98,14 @@ class PostController extends Controller
             'content' => $content
         ]);
 
-        return redirect()->route('blog.show', $post->slug);
+        return redirect()->route('blog.show', $post->slug)->with('success', 'Post has been updated!');
     }
 
     public function show(Post $post): View
     {
         Gate::authorize('view', $post);
 
-        return view('blog.show', ['post' => $post]);
+        return view('admin.blog.show', ['post' => $post]);
     }
 
     public function destroy(Post $post): RedirectResponse
@@ -114,6 +114,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('blog.index');
+        return redirect()->back()->with('error', 'Post has been deleted!');
     }
 }
