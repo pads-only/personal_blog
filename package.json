@@ -24,6 +24,7 @@
         "@editorjs/image": "^2.10.3",
         "@editorjs/list": "^2.0.9",
         "@tailwindcss/typography": "^0.5.19",
-        "highlight.js": "^11.11.1"
+        "highlight.js": "^11.11.1",
+        "toastify-js": "^1.12.0"
     }
 }
