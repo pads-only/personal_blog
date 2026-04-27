@@ -15,13 +15,30 @@ Route::prefix('admin')
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
-        Route::get('/blog', [PostController::class, 'index'])->name('blog.index');
-        Route::get('/blog/create', [PostController::class, 'create'])->name('blog.create');
-        Route::post('/blog', [PostController::class, 'store'])->name('blog.store');
-        Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('blog.show');
-        Route::get('/blog/{post:slug}/edit', [PostController::class, 'edit'])->name('blog.edit');
-        Route::patch('/blog/{post:slug}', [PostController::class, 'update'])->name('blog.update');
-        Route::delete('/blog/{post:slug}', [PostController::class, 'destroy'])->name('blog.destroy');
+
+        Route::get('/blog', [PostController::class, 'index'])
+            ->name('blog.index');
+
+        Route::get('/blog/create', [PostController::class, 'create'])
+            ->name('blog.create');
+
+        Route::post('/blog', [PostController::class, 'store'])
+            ->name('blog.store');
+
+        Route::get('/blog/{post:slug}', [PostController::class, 'show'])
+            ->name('blog.show');
+
+        Route::get('/blog/{post:slug}/edit', [PostController::class, 'edit'])
+            ->name('blog.edit');
+
+        Route::patch('/blog/{post:slug}', [PostController::class, 'update'])
+            ->name('blog.update');
+
+        Route::delete('/blog/{post:slug}', [PostController::class, 'destroy'])
+            ->name('blog.destroy');
+
+        Route::get('/blog/search', [PostController::class, 'search'])
+            ->name('blog.search');
     });
 
 Route::middleware('auth')->group(function () {

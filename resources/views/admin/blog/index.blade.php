@@ -45,8 +45,8 @@
                         </p> 
 
                     @endif                
-            <div class="p-6 text-text-light dark:text-text-dark">
-                    <table class="min-w-full text-sm">
+                <div class="p-6 text-text-light dark:text-text-dark">
+                    {{-- <table class="min-w-full text-sm">
                         <!-- Header -->
                         <thead class="border-b border-border-light dark:border-border-dark">
                             <tr class="text-left text-accent-light dark:text-accent-dark">
@@ -132,6 +132,51 @@
                     </table>
                     <div class="pt-6 border-t border-border-light dark:border-border-dark">
                         {{ $posts->links() }}
+                    </div> --}}
+                    
+
+                    <div class="relative overflow-x-auto bg-background-light dark:bg-background-dark shadow-xs rounded-lg border border-border-light dark:border-border-dark">
+                        <div class="p-4">
+                            @include('partials.search')
+                        </div>
+                        <table class="w-full text-sm text-left rtl:text-right text-body">
+                            <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-border-light dark:border-border-dark">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Title
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Publish Date
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-medium">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($posts as $post)
+                                    <tr class="bg-surface-light dark:bg-surface-dark hover:bg-background-light dark:hover:bg-background-dark border-b border-border-light dark:border-border-dark">
+                                        <td scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                                            {{__($post->title)}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                           {{__($post->status)}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{__($post->created_at->format("M d, Y"))}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <x-link :href="route('blog.show', $post->slug)">{{__('View')}}</x-link>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <td class="px-6 py-4">{{__('There\'n no available post!')}}</td>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
