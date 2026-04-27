@@ -16,11 +16,35 @@ class Post extends Model
     use HasFactory;
 
 
-    protected $fillable = ['user_id', 'title', 'slug', 'published_at', 'content'];
+    protected $fillable = ['user_id', 'title', 'slug', 'published_at', 'content', 'excerpt'];
     protected $casts = ['content' => 'array'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    //generate excerpt
+    public static function generateExcerpt($content)
+    {
+        if (!isset($content['blocks'])) return '';
+
+        foreach ($content['blocks'] as $block) {
+            if ($block['type'] === 'paragraph') {
+                return \Illuminate\Support\Str::limit(
+                    trim(strip_tags($block['data']['text'] ?? '')),
+                    120
+                );
+            }
+        }
+    }
+
+    //search function
+    public function scopeSearch($query, $value)
+    {
+        return $query->where(function ($q) use ($value) {
+            $q->where('title', 'LIKE', "%{$value}%")
+                ->orWhere('content', 'LIKE', "%{$value}%");
+        });
     }
 }

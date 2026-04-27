@@ -13,7 +13,7 @@
 @else
     <ul>
     @foreach($data['items'] as $item)
-        <li>
+        <li class="text-accent-light dark:text-accent-dark">
             <input type="checkbox" {{ $item['meta']['checked'] ? 'checked' : '' }} disabled>
             <span>{{ $item['content'] }}</span>
         </li>

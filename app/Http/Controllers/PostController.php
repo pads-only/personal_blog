@@ -15,14 +15,18 @@ use Spatie\Flash\Flash;
 
 class PostController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', Post::class);
 
-        $posts = Post::latest()
-            ->simplePaginate(5);
+        $posts = Post::search($request->search)
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
 
-        return view('admin.blog.index', ['posts' => $posts]);
+        $request->flash();
+
+        return view('admin.blog.index', compact('posts'));
     }
 
     public function create(): View
@@ -36,7 +40,7 @@ class PostController extends Controller
     {
         Gate::authorize('update', $post);
 
-        return view('admin.blog.edit', ['post' => $post]);
+        return view('admin.blog.edit', compact('post'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -65,6 +69,7 @@ class PostController extends Controller
             'slug' => $slug,
             'title' => $validatedAttributes['title'],
             'content' => $content,
+            'excerpt' => Post::generateExcerpt($content),
             'published_at' => Carbon::now()
         ]);
         return redirect()->route('blog.index')
@@ -92,10 +97,13 @@ class PostController extends Controller
 
         $content = json_decode($validatedAttributes['content'], true);
 
+        // dd(Post::generateExcerpt($content));
+
         $post->update([
             'slug' => $slug,
             'title' => $validatedAttributes['title'],
-            'content' => $content
+            'content' => $content,
+            'excerpt' => Post::generateExcerpt($content)
         ]);
 
         return redirect()->route('blog.show', $post->slug)->with('success', 'Post has been updated!');

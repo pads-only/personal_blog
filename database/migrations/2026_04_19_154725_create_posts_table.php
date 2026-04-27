@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->json('content');
-            $table->string('status')->default('draft');
+            $table->boolean('status')->default(false);
             $table->timestamp('published_at');
             $table->timestamps();
         });

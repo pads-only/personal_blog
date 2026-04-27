@@ -31,10 +31,10 @@ Route::middleware('guest')->group(function () {
 
     //post
     Route::get('/blog', [PostController::class, 'index'])
-        ->name('blog');
+        ->name('guest.blog');
 
     Route::get('/blog/{post:slug}', [PostController::class, 'show'])
-        ->name('blog.show');
+        ->name('guest.blog.show');
 });
 
 Route::middleware('auth')->group(function () {

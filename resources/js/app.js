@@ -1,6 +1,7 @@
 import Alpine from 'alpinejs';
 import hljs from 'highlight.js'
-import 'highlight.js/styles/xt256.css' // or any theme
+import 'highlight.js/styles/xt256.css'
+import 'flowbite';
 
 window.hljs = hljs
 
