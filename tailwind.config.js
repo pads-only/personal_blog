@@ -1,7 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 const colors = require('tailwindcss/colors');
-import flowbite from 'flowbite/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,9 +8,7 @@ export default {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        "./node_modules/flowbite/**/*.js",
-    ],
+        './resources/views/**/*.blade.php',],
 
     theme: {
         extend: {
@@ -55,5 +52,5 @@ export default {
         }
     },
 
-    plugins: [forms, require('@tailwindcss/typography'), flowbite],
+    plugins: [forms, require('@tailwindcss/typography')],
 };

@@ -1,34 +1,43 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-accent-light dark:text-accent-dark leading-tight">
-                {{ __('Blog') }}
-            </h2>
-            <div class="flex space-x-2">
-                @can('update', $post) 
-                <form action="" method="post">
-                    <x-button.primary>
-                        {{__('Publish')}}
-                    </x-button.primary>
-                </form>   
-                @endcan
-                @can('create', $post)    
-                <x-link :href="route('blog.create')" class="flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                    </svg>
-                    {{__('Write')}}
-                </x-link>
-                @endcan
-                @can('update', $post)    
-                <x-link :href="route('blog.edit', $post->slug)" class="flex">
-                    {{__('Edit')}}
-                </x-link>
-                @endcan    
-            </div>
+<x-app-layout :heading="__('Blog')">
+    <div class="pb-4 flex flex-col justify-end md:flex-row md:items-center gap-4">
+          <div class="flex gap-2 text-sm">
+            <x-link :href="route('blog.create')">
+              Write
+            </x-link>
+            <x-link :href="route('blog.edit', $post->slug)">
+              Edit
+            </x-link>
+            <x-button.danger x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion')">
+              Delete
+            </x-button.danger>
+          </div>
         </div>
-    </x-slot>
     <div class="py-12">
+    <x-modal name="confirm-deletion" :show="false" focusable>
+        <form method="post" action="{{ route('blog.destroy', $post->slug) }}" class="p-6">
+            @csrf
+            @method('delete')
+
+            <h2 class="text-lg font-medium text-accent-light dark:text-accent-dark">
+                {{ __('Are you sure you want to delete this post?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Once this post is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Delete') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-text-light dark:text-text-dark">

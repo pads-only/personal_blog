@@ -5,11 +5,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
-
-
 Route::prefix('admin')
     ->middleware(IsAdminMiddleware::class)->group(function () {
         Route::get('/dashboard', function () {

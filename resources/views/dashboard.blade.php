@@ -1,10 +1,4 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-accent-light dark:text-accent-dark leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
+<x-app-layout :heading="__('Dashboard')">
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-surface-light dark:bg-surface-dark overflow-hidden shadow-sm sm:rounded-lg">

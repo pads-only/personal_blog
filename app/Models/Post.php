@@ -5,6 +5,7 @@ namespace App\Models;
 use AlAminFirdows\LaravelEditorJs\Facades\LaravelEditorJs;
 use App\Policies\PostPolicy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +34,7 @@ class Post extends Model
             if ($block['type'] === 'paragraph') {
                 return \Illuminate\Support\Str::limit(
                     trim(strip_tags($block['data']['text'] ?? '')),
-                    120
+                    200
                 );
             }
         }
@@ -46,5 +47,19 @@ class Post extends Model
             $q->where('title', 'LIKE', "%{$value}%")
                 ->orWhere('content', 'LIKE', "%{$value}%");
         });
+    }
+
+    public function scopeStatus($query, $status)
+    {
+        if (is_null($status)) return $query;
+
+        return $query->where('status', $status);
+    }
+
+    public function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value === 1 ? 'published' : 'draft'
+        );
     }
 }

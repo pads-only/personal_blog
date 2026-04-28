@@ -20,6 +20,7 @@ class PostController extends Controller
         Gate::authorize('viewAny', Post::class);
 
         $posts = Post::search($request->search)
+            ->status($request->filter)
             ->latest()
             ->paginate(5)
             ->withQueryString();
@@ -122,6 +123,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->back()->with('error', 'Post has been deleted!');
+        return redirect()->route('blog.index')->with('error', 'Post has been deleted!');
     }
 }

@@ -1,6 +1,6 @@
 import Alpine from 'alpinejs';
 import hljs from 'highlight.js'
-import 'highlight.js/styles/xt256.css'
+import 'highlight.js/styles/github-dark.css'
 import 'flowbite';
 
 window.hljs = hljs
@@ -15,47 +15,47 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-let themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-let themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+// let themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+// let themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
 
-if (
-    localStorage.getItem("theme") === "dark" ||
-    (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-) {
-    document.documentElement.classList.add("dark")
-    themeToggleLightIcon.classList.remove("hidden");
-} else {
-    document.documentElement.classList.remove("dark")
-    themeToggleDarkIcon.classList.remove("hidden");
-}
+// if (
+//     localStorage.getItem("theme") === "dark" ||
+//     (!("theme" in localStorage) &&
+//         window.matchMedia("(prefers-color-scheme: dark)").matches)
+// ) {
+//     document.documentElement.classList.add("dark")
+//     themeToggleLightIcon.classList.remove("hidden");
+// } else {
+//     document.documentElement.classList.remove("dark")
+//     themeToggleDarkIcon.classList.remove("hidden");
+// }
 
-let themeToggleBtn = document.getElementById("theme-toggle");
+// let themeToggleBtn = document.getElementById("theme-toggle");
 
-themeToggleBtn.addEventListener("click", function () {
-    themeToggleDarkIcon.classList.toggle("hidden");
-    themeToggleLightIcon.classList.toggle("hidden");
+// themeToggleBtn.addEventListener("click", function () {
+//     themeToggleDarkIcon.classList.toggle("hidden");
+//     themeToggleLightIcon.classList.toggle("hidden");
 
-    if (localStorage.getItem("theme")) {
-        if (localStorage.getItem("theme") === "light") {
-            document.documentElement.classList.add("dark");
-            document.documentElement.classList.remove("light");
-            localStorage.setItem("theme", "dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-            document.documentElement.classList.add("light");
-            localStorage.setItem("theme", "light");
-        }
-    } else {
-        if (document.documentElement.classList.contains("dark")) {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        } else {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        }
-    }
-});
+//     if (localStorage.getItem("theme")) {
+//         if (localStorage.getItem("theme") === "light") {
+//             document.documentElement.classList.add("dark");
+//             document.documentElement.classList.remove("light");
+//             localStorage.setItem("theme", "dark");
+//         } else {
+//             document.documentElement.classList.remove("dark");
+//             document.documentElement.classList.add("light");
+//             localStorage.setItem("theme", "light");
+//         }
+//     } else {
+//         if (document.documentElement.classList.contains("dark")) {
+//             document.documentElement.classList.remove("dark");
+//             localStorage.setItem("theme", "light");
+//         } else {
+//             document.documentElement.classList.add("dark");
+//             localStorage.setItem("theme", "dark");
+//         }
+//     }
+// });
 
 
 import EditorJS from '@editorjs/editorjs'
@@ -86,15 +86,3 @@ const editor = new EditorJS({
         document.getElementById('content').value = JSON.stringify(content)
     }
 })
-
-// const form = document.querySelector('#postForm');
-
-// form.addEventListener('submit', async (e) => {
-//     e.preventDefault(); // stop normal submit
-
-//     const output = await editor.save();
-
-//     document.querySelector('#content').value = JSON.stringify(output);
-
-//     form.submit(); // now submit with data
-// });

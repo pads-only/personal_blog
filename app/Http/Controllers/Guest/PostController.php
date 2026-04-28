@@ -24,7 +24,7 @@ class PostController extends Controller
 
     public function show(Post $post): View
     {
-        if ($post->status !== 1) {
+        if ($post->status !== 'published') {
             abort(404);
         }
         return view('guest.show', compact('post'));

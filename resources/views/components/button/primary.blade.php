@@ -6,7 +6,7 @@
             border border-border-light dark:border-border-dark
             text-muted-light dark:text-muted-dark"
             :
-            "inline-flex items-center px-4 py-2
+            "inline-flex items-center px-4 py-2 h-10
         bg-primary-light text-surface-light
         dark:bg-primary-dark dark:text-background-dark
         border border-transparent rounded-md
@@ -25,7 +25,8 @@
 
 <button {{ $attributes->merge([
     'type' => 'submit',
-    'class' => $classes
+    'class' => $classes,
+    'disabled' => $disabled
 ]) }}>
     {{ $slot }}
 </button>
