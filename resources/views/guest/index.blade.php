@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <!-- Container -->
     <div class="max-w-4xl mx-auto px-4 py-8">
         <!-- Header -->
@@ -46,4 +46,32 @@
             {{ $posts->links() }}
         </div>
     </div>
+</x-guest-layout> --}}
+<x-guest-layout>
+     <!-- Search + Filter -->
+        <div class="pb-4 flex flex-col justify-end md:flex-row md:items-center gap-4 border-b border-border-light dark:border-border-dark">
+          @include('partials.search')
+        </div>
+
+        <!-- Blog Grid -->
+        <section class="mt-8 grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+          <!-- Blog Card -->
+          @forelse ($posts as $post)
+              <article class="text-text-light dark:text-text-dark bg-surface-light text-sm dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-5 transition h-46">
+                <p class="text-xs  mb-2">{{$post->created_at->format('M d, Y')}}</p>
+                <h3 class="font-semibold mb-2 text-xl text-accent-light dark:text-accent-dark">
+                    {{$post->title}}
+                </h3>
+                <p class=" mb-4 line-clamp-2">
+                    {{$post->excerpt}}
+                </p>
+                <div class="flex justify-between">
+                    <span class="text-muted">5 min read</span>
+                    <x-link :href="route('guest.blog.show', $post->slug)" class="">Read</x-link>
+                </div>
+            </article>
+          @empty
+              <p class="text-muted-light dark:text-muted-dark">No post found!</p>
+          @endforelse
+        </section>
 </x-guest-layout>

@@ -29,12 +29,20 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
+
     //post
     Route::get('/blog', [PostController::class, 'index'])
         ->name('guest.blog');
 
     Route::get('/blog/{post:slug}', [PostController::class, 'show'])
         ->name('guest.blog.show');
+
+    Route::get('/project', function () {
+        return view('guest.project.index');
+    })->name('guest.project');
 });
 
 Route::middleware('auth')->group(function () {
